@@ -1,4 +1,4 @@
-FROM ubuntu:20.04
+FROM ubuntu:focal
 ENV DEBIAN_FRONTEND noninteractive
 ENV PYTHONPATH $PYTHONPATH:/src/
 
@@ -8,10 +8,10 @@ RUN apt install -y build-essential python python-setuptools curl python-pip libs
 RUN apt update -y
 RUN apt install -y software-properties-common python3-mysqldb libmysqlclient-dev libffi-dev libssl-dev python3-dev
 RUN curl -sL https://deb.nodesource.com/setup_14.x | bash -
-RUN sudo apt-get --yes --force-yes install nodejs
+RUN sudo apt install -y nodejs
 
 RUN apt install -y nginx supervisor
-RUN pip install uwsgi
+RUN pip3 install uwsgi
 
 # Add and install Python modules
 ADD requirements.txt /src/requirements.txt
