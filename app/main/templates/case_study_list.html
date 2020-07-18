@@ -28,7 +28,7 @@
                 <p>Our first case study will be published soon. Check out <a href="https://blog.staffjoy.com">Blog.Staffjoy.com</a> for more information about our deployments.</p>
             </div>
             {% endif %}
-            {% for key, data in studies.iteritems() %}
+            {% for key, data in studies.items() %}
                 <div class="panel card case-study-card" data-path="{{ url_for("main.case_study", slug=key) }}">
                     <div class="panel-heading page-header">
                         <div class="pull-right">

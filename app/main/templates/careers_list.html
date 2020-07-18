@@ -28,7 +28,7 @@
                 <p>We currently have no positions available. However, if you are interested in learning more about jobs email <a href="mailto:team@staffjoy.com">team@staffjoy.com</a>.</p>
             </div>
             {% endif %}
-            {% for key, data in careers.iteritems() %}
+            {% for key, data in careers.items() %}
                 <div class="panel card career-card" data-path="{{ url_for("main.career_page", slug=key) }}">
                     <div class="panel-heading page-header">
                         <div class="pull-right">

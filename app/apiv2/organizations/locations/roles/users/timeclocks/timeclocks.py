@@ -27,7 +27,7 @@ class TimeclocksApi(Resource):
         parameters = parser.parse_args()
 
         # Filter out null values
-        parameters = dict((k, v) for k, v in parameters.iteritems()
+        parameters = dict((k, v) for k, v in parameters.items()
                           if v is not None)
 
         org = Organization.query.get_or_404(org_id)
@@ -113,7 +113,7 @@ class TimeclocksApi(Resource):
         parameters = parser.parse_args()
 
         # Filter out null values
-        parameters = dict((k, v) for k, v in parameters.iteritems()
+        parameters = dict((k, v) for k, v in parameters.items()
                           if v is not None)
 
         admin_permissions = g.current_user.is_sudo(

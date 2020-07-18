@@ -3,19 +3,19 @@ import os
 from flask import Flask, make_response
 from flask import render_template, request
 from flask_limiter import Limiter
-from flask.ext.assets import Environment
-from flask.ext.bootstrap import Bootstrap
-from flask.ext.sqlalchemy import SQLAlchemy
-from flask.ext.login import LoginManager
-from flask.ext.redis import Redis
+from flask_assets import Environment
+from flask_bootstrap import Bootstrap
+from flask_sqlalchemy import SQLAlchemy
+from flask_login import LoginManager
+from flask_redis import Redis
 from celery import Celery
 import phonenumbers
 
-from config import config  # pylint: disable=relative-import
-import loader  # pylint: disable=relative-import
-import stylesheets  # pylint: disable=relative-import
+from .config import config
+from . import loader
+from . import stylesheets
 # yapf: disable
-from helpers import date_duration, sorted_sessions  # pylint: disable=relative-import
+from .helpers import date_duration, sorted_sessions
 # yapf: enable
 
 bootstrap = Bootstrap()

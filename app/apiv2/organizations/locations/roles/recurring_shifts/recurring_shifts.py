@@ -21,7 +21,7 @@ class RecurringShiftsApi(Resource):
         parameters = parser.parse_args()
 
         # Filter out null values
-        parameters = dict((k, v) for k, v in parameters.iteritems()
+        parameters = dict((k, v) for k, v in parameters.items()
                           if v is not None)
 
         recurring_shifts_query = RecurringShift.query.filter_by(

@@ -3,16 +3,16 @@ set -e
 
 # This file is used by the Vagrantfile to set up the dev environment
 
-sudo apt-get update
+sudo apt update -y
 
-sudo apt-get install --yes --force-yes zip unzip python python-dev \
+sudo apt install -y zip unzip python python-dev \
     build-essential curl redis-server python-setuptools
-easy_install -U pip
+sudo apt install -y python3-pip
 
 debconf-set-selections <<< 'mysql-server mysql-server/root_password password bacon'
 debconf-set-selections <<< 'mysql-server mysql-server/root_password_again password bacon'
-apt-get update --yes --force-yes
-apt-get install --yes --force-yes python-software-properties python-mysqldb mysql-server libmysqlclient-dev \
+apt update -y
+apt install -y software-properties-common python3-mysqldb mysql-server libmysqlclient-dev \
     libffi-dev libssl-dev
 
 printf "[client]\nuser = root\npassword = bacon" >> ~/.my.cnf
@@ -21,8 +21,8 @@ service mysql restart
 mysql -e "create database dev;"
 
 
-curl -sL https://deb.nodesource.com/setup | bash -
-sudo apt-get --yes --force-yes install nodejs
+curl -sL https://deb.nodesource.com/setup_14.x | bash -
+sudo apt install -y nodejs
 
 # let's get some docker going too
 curl -sSL https://get.docker.com/ | sh
@@ -34,7 +34,7 @@ echo 'export ENV="dev"' >> /etc/profile
 echo 'export PYTHONPATH="/vagrant/"' >> /etc/profile
 
 # Get some virtualenv shit going all up in here
-pip install virtualenv
+pip3 install virtualenv
 echo "source /vagrant/vagrant-venv/bin/activate" >> $HOME/.bashrc
 echo "source /vagrant/vagrant-venv/bin/activate" >> /home/vagrant/.bashrc
 

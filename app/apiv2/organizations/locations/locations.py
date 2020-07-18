@@ -20,7 +20,7 @@ class LocationsApi(Resource):
         parser.add_argument("recurse", type=inputs.boolean, default=False)
         parser.add_argument("archived", type=inputs.boolean)
         args = parser.parse_args()
-        args = dict((k, v) for k, v in args.iteritems() if v is not None)
+        args = dict((k, v) for k, v in args.items() if v is not None)
 
         locations_query = Location.query.filter_by(organization_id=org_id)
 

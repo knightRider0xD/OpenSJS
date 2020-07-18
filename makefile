@@ -8,7 +8,7 @@ celery-server:
 build:
 	bash build.sh
 dev-requirements:
-	pip freeze > requirements.txt
+	pip3 freeze > requirements.txt
 db-migrate:
 	python main.py db migrate
 db-deploy:

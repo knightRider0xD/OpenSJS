@@ -1,8 +1,8 @@
 import os
 import sys
 
-from flask.ext.script import Manager, Server, Shell
-from flask.ext.migrate import Migrate, MigrateCommand, upgrade
+from flask_script import Manager, Server, Shell
+from flask_migrate import Migrate, MigrateCommand, upgrade
 
 from app import create_app, db, cache, create_celery_app
 from app.caches import SessionCache
@@ -18,10 +18,6 @@ migrate = Migrate(app, db)
 manager.add_command("db", MigrateCommand)
 manager.add_command("runserver", Server(host="0.0.0.0", port=80))
 manager.add_command("runtestserver", Server(host="127.0.0.1", port=8080))
-
-# Set flask-restful to be utf-8
-reload(sys)
-sys.setdefaultencoding("utf-8")
 
 @app.teardown_appcontext
 def shutdown_session(exception=None):

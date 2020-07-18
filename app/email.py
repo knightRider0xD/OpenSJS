@@ -1,5 +1,5 @@
 from flask import current_app
-import mandrill
+#import mandrill
 
 from app import create_celery_app
 celery = create_celery_app()
@@ -39,7 +39,7 @@ def _send_email(self, to, subject, html_body):
                             (to, subject))
 
     try:
-        client = mandrill.Mandrill(current_app.config.get('MANDRILL_API_KEY'))
+        #client = mandrill.Mandrill(current_app.config.get('MANDRILL_API_KEY'))
 
         # Staffjoy originaly used a Mandrill template hosted in our account.
         # We have commented it out, and subbed in a no-template sender.
@@ -81,9 +81,10 @@ def _send_email(self, to, subject, html_body):
                 'type': 'to'
             }]
         }
-        client.messages.send(message=message, async=False)
+        #client.messages.send(message=message, async=False)
+        print(html_body);
 
-    except mandrill.Error, e:
+    except mandrill.Error as e:
         # Mandrill errors are thrown as exceptions
         # and they can include things like "out of credits"
         current_app.logger.exception(

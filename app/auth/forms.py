@@ -1,4 +1,4 @@
-from flask.ext.wtf import Form, RecaptchaField
+from flask_wtf import FlaskForm, RecaptchaField
 from wtforms import StringField, PasswordField, BooleanField, \
     SubmitField, SelectField, HiddenField
 
@@ -10,7 +10,7 @@ from app.models import User
 from app.plans import plans
 
 
-class SignUpForm(Form):
+class SignUpForm(FlaskForm):
     # WTF doesn"t have default "placeholder", so we use "label" for that
     name = StringField(
         "Name",
@@ -51,7 +51,7 @@ class SignUpForm(Form):
             raise ValidationError("Username already in use.")
 
 
-class FreeTrialForm(Form):
+class FreeTrialForm(FlaskForm):
     # WTF doesn"t have default "placeholder", so we use "label" for that
     name = StringField(
         "Your Name",
@@ -72,7 +72,7 @@ class FreeTrialForm(Form):
 
     plan = SelectField(
         "Type of Workers",
-        choices=[(key, value["for"]) for key, value in plans.iteritems()
+        choices=[(key, value["for"]) for key, value in plans.items()
                  if value["active"]],
         validators=[Required()], )
 
@@ -112,7 +112,7 @@ class FreeTrialForm(Form):
             raise ValidationError("Email already registered.")
 
 
-class LoginForm(Form):
+class LoginForm(FlaskForm):
     email = StringField(
         "Email",
         validators=[Required(), Length(1, 256)],
@@ -125,7 +125,7 @@ class LoginForm(Form):
     submit = SubmitField("Submit")
 
 
-class NativeLoginForm(Form):
+class NativeLoginForm(FlaskForm):
     email = EmailField(
         "Email",
         validators=[Required(), Length(1, 256)],
@@ -137,7 +137,7 @@ class NativeLoginForm(Form):
     submit = SubmitField("Submit")
 
 
-class RequestPasswordResetForm(Form):
+class RequestPasswordResetForm(FlaskForm):
     email = StringField(
         "Email",
         validators=[Required(), Length(1, 64), Email()],
@@ -146,7 +146,7 @@ class RequestPasswordResetForm(Form):
     submit = SubmitField("Request Reset")
 
 
-class PasswordResetForm(Form):
+class PasswordResetForm(FlaskForm):
     email = StringField(
         "Email",
         validators=[Required(), Length(1, 64), Email()],
@@ -166,7 +166,7 @@ class PasswordResetForm(Form):
             raise ValidationError("Unknown email address.")
 
 
-class ChangePasswordForm(Form):
+class ChangePasswordForm(FlaskForm):
     old_password = PasswordField(
         "Current Password",
         validators=[Length(1, 256), Required()],
@@ -180,7 +180,7 @@ class ChangePasswordForm(Form):
     submit = SubmitField("Change")
 
 
-class ChangeNameForm(Form):
+class ChangeNameForm(FlaskForm):
     name = StringField(
         "Name",
         validators=[Required(), Length(1, 256)],
@@ -188,7 +188,7 @@ class ChangeNameForm(Form):
     submit = SubmitField("Update")
 
 
-class ChangeEmailForm(Form):
+class ChangeEmailForm(FlaskForm):
     email = StringField(
         "Email",
         validators=[Required(), Length(1, 256), Email()],
@@ -205,7 +205,7 @@ class ChangeEmailForm(Form):
             raise ValidationError("Email already registered.")
 
 
-class ChangeUsernameForm(Form):
+class ChangeUsernameForm(FlaskForm):
     username = StringField(
         "Username",
         validators=[
@@ -228,7 +228,7 @@ class ChangeUsernameForm(Form):
             raise ValidationError("Username already in use.")
 
 
-class ActivateForm(Form):
+class ActivateForm(FlaskForm):
     name = StringField(
         "Name",
         validators=[Required(), Length(1, 256)],
@@ -263,7 +263,7 @@ class ActivateForm(Form):
             raise ValidationError("Username already in use.")
 
 
-class ApiKeyForm(Form):
+class ApiKeyForm(FlaskForm):
     name = StringField(
         "Key Label",
         validators=[Required(), Length(1, 256)],
@@ -271,11 +271,11 @@ class ApiKeyForm(Form):
     submit = SubmitField("Issue")
 
 
-class SessionsForm(Form):
+class SessionsForm(FlaskForm):
     submit = SubmitField("Logout All Sessions")
 
 
-class ChangeNotificationsForm(Form):
+class ChangeNotificationsForm(FlaskForm):
     enable_notification_emails = BooleanField(
         "Send Email Alerts", )
     enable_timeclock_notification_sms = BooleanField(
@@ -283,7 +283,7 @@ class ChangeNotificationsForm(Form):
     submit = SubmitField("Save")
 
 
-class NewPhoneNumberForm(Form):
+class NewPhoneNumberForm(FlaskForm):
     def __init__(self, country_code_choices, *args, **kwargs):
         super(NewPhoneNumberForm, self).__init__(*args, **kwargs)
         self.phone_country_code.choices = country_code_choices
@@ -299,7 +299,7 @@ class NewPhoneNumberForm(Form):
     submit = SubmitField("Save")
 
 
-class VerifyPhoneNumberForm(Form):
+class VerifyPhoneNumberForm(FlaskForm):
     pin = StringField(
         "Verification Pin",
         validators=[Required(), Length(1, 256)],
@@ -307,5 +307,5 @@ class VerifyPhoneNumberForm(Form):
     submit = SubmitField("Confirm")
 
 
-class RemovePhoneNumberForm(Form):
+class RemovePhoneNumberForm(FlaskForm):
     submit = SubmitField("Remove phone number")

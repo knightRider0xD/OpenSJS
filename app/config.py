@@ -159,7 +159,7 @@ class DevelopmentConfig(DefaultConfig):
     DEBUG = True
     URL = os.environ.get("URL", "http://suite.local")
     ROBOTS_TEMPLATE = "text/robots-private.txt"
-    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI", "mysql://root:bacon@localhost/dev")
+    SQLALCHEMY_DATABASE_URI = os.environ.get("SQLALCHEMY_DATABASE_URI", "mysql+pymysql://root:bacon@localhost/dev")
     SECRET_KEY = "It is a secret - and if I told you it would not be a secret"
     SERVER_NAME = os.environ.get("SERVER_NAME", "suite.local")
     # Time for state monitoring

@@ -1,7 +1,7 @@
 import json
 
 from flask import g
-from flask.ext import restful
+import flask_restful as restful
 from flask_restful import marshal, abort
 
 from app import db

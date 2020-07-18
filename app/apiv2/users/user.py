@@ -17,7 +17,7 @@ class UserApi(Resource):
         parser = reqparse.RequestParser()
         parser.add_argument("archived", type=inputs.boolean)
         args = parser.parse_args()
-        args = dict((k, v) for k, v in args.iteritems() if v is not None)
+        args = dict((k, v) for k, v in args.items() if v is not None)
 
         response = {
             API_ENVELOPE: {},
@@ -79,10 +79,10 @@ class UserApi(Resource):
 
         changes = parser.parse_args(strict=True)
         # Filter out null values
-        changes = dict((k, v) for k, v in changes.iteritems() if v is not None)
+        changes = dict((k, v) for k, v in changes.items() if v is not None)
         # Filter some values to lowercase, etc
         changes = dict(
-            map(lambda (k, v): (k, user_filter(k, v)), changes.iteritems()))
+            map(lambda k, v: (k, user_filter(k, v)), changes.items()))
 
         user = User.query.get_or_404(user_id)
 
@@ -104,7 +104,7 @@ class UserApi(Resource):
             if not valid_email(changes['email']):
                 abort(400)
 
-        for change, value in changes.iteritems():
+        for change, value in changes.items():
             if value is not None:
                 try:
                     setattr(user, change, value)

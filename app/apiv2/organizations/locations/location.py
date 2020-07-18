@@ -29,7 +29,7 @@ class LocationApi(Resource):
         parser.add_argument("recurse", type=inputs.boolean, default=False)
         parser.add_argument("archived", type=inputs.boolean)
         args = parser.parse_args()
-        args = dict((k, v) for k, v in args.iteritems() if v is not None)
+        args = dict((k, v) for k, v in args.items() if v is not None)
 
         location = Location.query.get_or_404(location_id)
         response[API_ENVELOPE] = marshal(location, location_fields)
@@ -65,7 +65,7 @@ class LocationApi(Resource):
         changes = parser.parse_args(strict=True)
 
         # Filter out null values
-        changes = dict((k, v) for k, v in changes.iteritems() if v is not None)
+        changes = dict((k, v) for k, v in changes.items() if v is not None)
 
         if len(changes) == 0:
             return {}
@@ -82,7 +82,7 @@ class LocationApi(Resource):
         elif location.archived:
             abort(400)
 
-        for change, value in changes.iteritems():
+        for change, value in changes.items():
             if value is not None:
                 try:
                     setattr(location, change, value)

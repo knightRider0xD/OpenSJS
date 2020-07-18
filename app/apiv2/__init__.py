@@ -1,8 +1,8 @@
 from flask import Blueprint
 import flask_restful
 
-from flask.ext.restful.representations.json import output_json
-output_json.func_globals['settings'] = {
+from flask_restful.representations.json import output_json
+output_json.__globals__['settings'] = {
     'ensure_ascii': False,
     'encoding': 'utf8'
 }

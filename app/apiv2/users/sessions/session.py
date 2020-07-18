@@ -1,4 +1,4 @@
-from flask.ext import restful
+import flask_restful as restful
 from app.constants import API_ENVELOPE
 from app.models import User
 from app.apiv2.decorators import permission_self

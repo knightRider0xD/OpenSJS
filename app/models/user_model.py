@@ -6,14 +6,14 @@ import random
 
 import hmac
 import phonenumbers
-import unirest
+import requests
 import hashlib
 from werkzeug.security import generate_password_hash, check_password_hash
 from itsdangerous import TimedJSONWebSignatureSerializer as Serializer
 from sqlalchemy import select
 from flask import current_app, render_template, copy_current_request_context, \
     request
-from flask.ext.login import UserMixin
+from flask_login import UserMixin
 
 from app import db, login_manager
 from app.constants import SECONDS_PER_HOUR, SECONDS_PER_DAY
@@ -22,8 +22,8 @@ from app.email import send_email
 from app.limiters import UserActivationReminderLimiter, PingLimiter
 from app.sms import send_sms
 
-import organization_model  # pylint: disable=relative-import
-import schedule2_model  # pylint: disable=relative-import
+from . import organization_model
+from . import schedule2_model
 from app.models.location_model import Location
 from app.models.role_model import Role
 from app.models.role_to_user_model import RoleToUser
@@ -119,12 +119,6 @@ class User(UserMixin, db.Model):
         if current_app.config.get("ENV") == "dev":
             return
 
-        @copy_current_request_context
-        def async_callback(resp):
-            if resp.code != 200:
-                current_app.logger.info("Failed intercom update - header %s" %
-                                        (resp.code))
-
         headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -152,13 +146,17 @@ class User(UserMixin, db.Model):
             if org is not None:
                 data["companies"].append(org.intercom_settings())
 
-        unirest.post(
-            "https://api.intercom.io/users",
-            params=json.dumps(data),
-            headers=headers,
+        resp = requests.post(
+            "https://api.intercom.io/users", 
+            data=json.dumps(data), 
+            headers=headers, 
             auth=(current_app.config.get("INTERCOM_ID"),
-                  current_app.config.get("INTERCOM_API_KEY"), ),
-            callback=async_callback, )
+                  current_app.config.get("INTERCOM_API_KEY"), ), )
+
+        if resp.status_code != 200:
+            current_app.logger.info("Failed intercom update - header %s" %
+                                    (resp.status_code))
+
         return
 
     def track_event(self, event):
@@ -178,12 +176,6 @@ class User(UserMixin, db.Model):
                                      (self.id, event))
             return
 
-        @copy_current_request_context
-        def async_callback(resp):
-            if resp.code != 202:
-                current_app.logger.info("bad intercom event - header %s" %
-                                        (resp.code))
-
         headers = {
             "Accept": "application/json",
             "Content-Type": "application/json",
@@ -197,13 +189,17 @@ class User(UserMixin, db.Model):
             "event_name": event,
         }
 
-        unirest.post(
+        resp = requests.post(
             "https://api.intercom.io/events",
-            params=json.dumps(data),
+            data=json.dumps(data),
             headers=headers,
             auth=(current_app.config.get("INTERCOM_ID"),
-                  current_app.config.get("INTERCOM_API_KEY"), ),
-            callback=async_callback, )
+                  current_app.config.get("INTERCOM_API_KEY"), ), )
+
+        if resp.status_code != 202:
+            current_app.logger.info("bad intercom event - header %s" %
+                                    (resp.status_code))
+
         return
 
     def verify_password(self, password):
@@ -620,7 +616,7 @@ class User(UserMixin, db.Model):
         send_email(self.email, subject, html_body)
 
     @staticmethod
-    @login_manager.token_loader
+    @login_manager.request_loader
     def load_session_token(token):
         """Load cookie session"""
         s = Serializer(current_app.config["SECRET_KEY"],

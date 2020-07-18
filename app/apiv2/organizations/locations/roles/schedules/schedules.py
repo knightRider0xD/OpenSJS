@@ -21,7 +21,7 @@ class SchedulesApi(Resource):
         parameters = parser.parse_args(strict=True)
 
         # Filter out null values
-        parameters = dict((k, v) for k, v in parameters.iteritems()
+        parameters = dict((k, v) for k, v in parameters.items()
                           if v is not None)
 
         response = {

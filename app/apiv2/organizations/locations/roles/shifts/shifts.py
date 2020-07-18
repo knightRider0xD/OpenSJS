@@ -34,7 +34,7 @@ class ShiftsApi(Resource):
         )  # Strict breaks calls from parent methods? Sigh.
 
         # Filter out null values
-        parameters = dict((k, v) for k, v in parameters.iteritems()
+        parameters = dict((k, v) for k, v in parameters.items()
                           if v is not None)
 
         default_tz = get_default_tz()
@@ -174,7 +174,7 @@ class ShiftsApi(Resource):
         parameters = parser.parse_args()
 
         # Filter out null values
-        parameters = dict((k, v) for k, v in parameters.iteritems()
+        parameters = dict((k, v) for k, v in parameters.items()
                           if v is not None)
 
         default_tz = get_default_tz()
