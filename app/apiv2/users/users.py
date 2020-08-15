@@ -43,8 +43,8 @@ class UsersApi(Resource):
         if filterByUsername is not None:
             users = users.filter(User.username.like(filterByUsername.lower()))
 
-        response[API_ENVELOPE] = map(lambda user: marshal(user, user_fields),
-                                     users.limit(limit).offset(offset).all())
+        response[API_ENVELOPE] = list(map(lambda user: marshal(user, user_fields),
+                                     users.limit(limit).offset(offset).all()))
 
         return response
 

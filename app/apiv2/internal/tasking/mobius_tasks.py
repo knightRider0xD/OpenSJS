@@ -21,9 +21,9 @@ class MobiusTasksApi(Resource):
                 .join(Organization)\
                 .filter(Schedule2.state == state, Organization.active == True)\
                 .all()
-            response[API_ENVELOPE][state] = map(
+            response[API_ENVELOPE][state] = list(map(
                 lambda schedule: marshal(schedule, tasking_schedule_fields),
-                data)
+                data))
         return response
 
     def post(self):

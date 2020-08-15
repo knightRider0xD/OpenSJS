@@ -43,7 +43,7 @@ class LocationApi(Resource):
             roles = roles_query.all()
             response[API_ENVELOPE].update({
                 "roles":
-                map(lambda role: marshal(role, role_fields), roles)
+                list(map(lambda role: marshal(role, role_fields), roles))
             })
 
             # also include managers for the location
@@ -51,7 +51,7 @@ class LocationApi(Resource):
                 Location.id == location_id).all()
             response[API_ENVELOPE].update({
                 "managers":
-                map(lambda manager: marshal(manager, user_fields), managers)
+                list(map(lambda manager: marshal(manager, user_fields), managers))
             })
 
         return response

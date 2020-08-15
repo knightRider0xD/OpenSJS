@@ -123,7 +123,7 @@ class ShiftsApi(Resource):
 
         output = {
             API_ENVELOPE:
-            map(lambda shift: marshal(shift, shift_fields), shifts)
+            list(map(lambda shift: marshal(shift, shift_fields), shifts))
         }
 
         if parameters.get("include_summary"):
@@ -154,7 +154,7 @@ class ShiftsApi(Resource):
                         int((shift.stop - shift.start).total_seconds() / 60)
                     }
 
-            output["summary"] = users_summary.values()
+            output["summary"] = list(users_summary.values())
 
         return output
 

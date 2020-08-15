@@ -40,6 +40,6 @@ class ScheduleTimeclocksApi(Resource):
 
         return {
             API_ENVELOPE:
-            map(lambda timeclock: marshal(timeclock, timeclock_fields),
-                timeclocks.all())
+            list(map(lambda timeclock: marshal(timeclock, timeclock_fields),
+                timeclocks.all()))
         }

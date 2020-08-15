@@ -30,8 +30,8 @@ class RolesApi(Resource):
             roles_query = roles_query.filter_by(archived=args["archived"])
 
         roles = roles_query.all()
-        response[API_ENVELOPE] = map(lambda role: marshal(role, role_fields),
-                                     roles)
+        response[API_ENVELOPE] = list(map(lambda role: marshal(role, role_fields),
+                                     roles))
 
         if args["recurse"]:
 

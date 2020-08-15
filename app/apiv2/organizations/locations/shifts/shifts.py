@@ -100,5 +100,5 @@ class LocationShiftsApi(Resource):
 
         return {
             API_ENVELOPE:
-            map(lambda shift: marshal(shift, shift_fields), shifts.all())
+            list(map(lambda shift: marshal(shift, shift_fields), shifts.all()))
         }

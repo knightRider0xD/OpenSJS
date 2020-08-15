@@ -96,8 +96,8 @@ class TimeclocksApi(Resource):
 
         return {
             constants.API_ENVELOPE:
-            map(lambda timeclock: marshal(timeclock, timeclock_fields),
-                timeclocks.all())
+            list(map(lambda timeclock: marshal(timeclock, timeclock_fields),
+                timeclocks.all()))
         }
 
     @verify_org_location_role_user

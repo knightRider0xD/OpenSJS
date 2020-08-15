@@ -58,7 +58,7 @@ class ScheduleShiftsApi(Resource):
                 .order_by(asc(Shift2.start)) \
                 .all()
 
-            shifts = map(lambda shift: marshal(shift, shift_fields), shifts)
+            shifts = list(map(lambda shift: marshal(shift, shift_fields), shifts))
 
             Shifts2Cache.set(schedule_id, shifts)
 
@@ -95,8 +95,8 @@ class ScheduleShiftsApi(Resource):
                     shifts, role_id, parameters["claimable_by_user"], schedule)
 
         if parameters.get("filter_by_published"):
-            shifts = filter(lambda shift: shift.get("published") == True,
-                            shifts)
+            shifts = list(filter(lambda shift: shift.get("published") == True,
+                            shifts))
 
         result = {
             API_ENVELOPE: shifts,
@@ -127,7 +127,7 @@ class ScheduleShiftsApi(Resource):
                         "minutes": duration,
                     }
 
-            result["summary"] = users_summary.values()
+            result["summary"] = list(users_summary.values())
 
         return result
 

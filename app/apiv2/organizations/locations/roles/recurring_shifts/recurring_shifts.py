@@ -37,8 +37,8 @@ class RecurringShiftsApi(Resource):
 
         return {
             constants.API_ENVELOPE:
-            map(lambda recurring_shift: marshal(recurring_shift, recurring_shift_fields),
-                recurring_shifts_query.all())
+            list(map(lambda recurring_shift: marshal(recurring_shift, recurring_shift_fields),
+                recurring_shifts_query.all()))
         }
 
     @verify_org_location_role

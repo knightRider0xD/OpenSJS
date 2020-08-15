@@ -28,9 +28,9 @@ class UserApi(Resource):
         user = User.query.get_or_404(user_id)
 
         response[API_ENVELOPE] = marshal(user, user_fields)
-        response["organization_admin"] = map(
+        response["organization_admin"] = list(map(
             lambda organization: marshal(organization, organization_fields),
-            user.admin_of.all())
+            user.admin_of.all()))
 
         response["location_manager"] = []
         for location in user.manager_of.all():
@@ -82,7 +82,7 @@ class UserApi(Resource):
         changes = dict((k, v) for k, v in changes.items() if v is not None)
         # Filter some values to lowercase, etc
         changes = dict(
-            map(lambda k, v: (k, user_filter(k, v)), changes.items()))
+            list(map(lambda k, v: (k, user_filter(k, v)), changes.items())))
 
         user = User.query.get_or_404(user_id)
 

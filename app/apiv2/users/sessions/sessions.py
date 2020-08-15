@@ -12,7 +12,7 @@ class SessionsApi(Resource):
         for key in data.keys():
             data[key]["key"] = key
 
-        return {API_ENVELOPE: data.values()}, 200
+        return {API_ENVELOPE: list(data.values())}, 200
 
     @permission_self
     def delete(self, user_id):

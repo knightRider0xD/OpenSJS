@@ -43,7 +43,7 @@ def ich_templates():
     output = {}
     for filename in os.listdir(template_folder):
         name = os.path.splitext(filename)[0]
-        f = file(template_folder + filename)
+        f = open(template_folder + filename)
         template = f.read()
 
         output[name] = template
@@ -54,7 +54,7 @@ def ich_templates():
 
     for filename in os.listdir(shared_folder):
         name = os.path.splitext(filename)[0]
-        f = file(shared_folder + filename)
+        f = open(shared_folder + filename)
         template = f.read()
 
         output[name] = template

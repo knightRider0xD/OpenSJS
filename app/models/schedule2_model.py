@@ -102,7 +102,7 @@ class Schedule2(db.Model):
                 raise Exception(
                     "Cannot create a schedule with poorly structured demand")
             else:
-                demand = json.dumps(demand)
+                demand = json.dumps(demand).encode('utf-8')
 
         # cast start to local time
         local_tz = loc.timezone_pytz

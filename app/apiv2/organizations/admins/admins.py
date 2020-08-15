@@ -18,8 +18,8 @@ class OrgAdminsApi(Resource):
         }
 
         org = Organization.query.get_or_404(org_id)
-        response[API_ENVELOPE] = map(lambda admin: marshal(admin, user_fields),
-                                     org.admins.all())
+        response[API_ENVELOPE] = list(map(lambda admin: marshal(admin, user_fields),
+                                     org.admins.all()))
 
         return response
 

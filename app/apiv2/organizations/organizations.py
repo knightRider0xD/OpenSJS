@@ -26,9 +26,9 @@ class OrganizationsApi(Resource):
         }
 
         organizations = Organization.query
-        response[API_ENVELOPE] = map(
+        response[API_ENVELOPE] = list(map(
             lambda organization: marshal(organization, organization_fields),
-            organizations.limit(limit).offset(offset).all())
+            organizations.limit(limit).offset(offset).all()))
 
         return response
 

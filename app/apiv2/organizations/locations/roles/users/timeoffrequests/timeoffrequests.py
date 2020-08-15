@@ -98,8 +98,8 @@ class TimeOffRequestsApi(Resource):
 
         return {
             API_ENVELOPE:
-            map(lambda time_off_request: marshal(time_off_request, time_off_request_fields),
-                time_off_requests.all())
+            list(map(lambda time_off_request: marshal(time_off_request, time_off_request_fields),
+                time_off_requests.all()))
         }
 
     @verify_org_location_role_user

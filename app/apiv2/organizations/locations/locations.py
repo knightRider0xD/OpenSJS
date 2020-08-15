@@ -30,8 +30,8 @@ class LocationsApi(Resource):
                 archived=args["archived"])
 
         locations = locations_query.all()
-        response[API_ENVELOPE] = map(
-            lambda location: marshal(location, location_fields), locations)
+        response[API_ENVELOPE] = list(map(
+            lambda location: marshal(location, location_fields), locations))
 
         if args["recurse"]:
 
@@ -46,7 +46,7 @@ class LocationsApi(Resource):
                 roles = roles_query.all()
                 datum.update({
                     "roles":
-                    map(lambda role: marshal(role, role_fields), roles)
+                    list(map(lambda role: marshal(role, role_fields), roles))
                 })
 
                 # Also add all managers for each location
@@ -54,8 +54,8 @@ class LocationsApi(Resource):
                     Location.id == datum["id"]).all()
                 datum.update({
                     "managers":
-                    map(lambda manager: marshal(manager, user_fields),
-                        managers)
+                    list(map(lambda manager: marshal(manager, user_fields),
+                        managers))
                 })
 
         return response

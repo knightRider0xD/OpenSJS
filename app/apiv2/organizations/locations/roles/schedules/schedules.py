@@ -38,8 +38,8 @@ class SchedulesApi(Resource):
                 ) \
                 .all()
 
-            schedules = map(
-                lambda schedule: marshal(schedule, schedule_fields), schedules)
+            schedules = list(map(
+                lambda schedule: marshal(schedule, schedule_fields), schedules))
             Schedules2Cache.set(role_id, schedules)
 
         default_tz = get_default_tz()
@@ -56,11 +56,11 @@ class SchedulesApi(Resource):
                 start = (start + start.utcoffset()).replace(tzinfo=default_tz)
 
             # run a filter to only keep schedules that occur after start
-            schedules = filter(
+            schedules = list(filter(
                 lambda x: \
                     iso8601.parse_date(x.get("start")).replace(tzinfo=default_tz) >= start,
                     schedules
-                )
+                ))
 
         if "end" in parameters:
             try:
@@ -73,11 +73,11 @@ class SchedulesApi(Resource):
             else:
                 end = (end + end.utcoffset()).replace(tzinfo=default_tz)
 
-            schedules = filter(
+            schedules = list(filter(
                 lambda x: \
                     iso8601.parse_date(x.get("start")).replace(tzinfo=default_tz) < end,
                     schedules
-                )
+                ))
 
         response["data"] = schedules
         return response
